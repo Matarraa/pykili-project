@@ -275,7 +275,7 @@ while answer=='да':
             break
         else:
             continue
-        
+    secret_word = choose_word(wordlist)    
     answer=str.lower(input('Хотите сыграть еще раз? (да/нет)'))
 
 
