@@ -1,5 +1,6 @@
 import random
 import re
+import os
 
 pictures = ['''
   
@@ -181,8 +182,7 @@ def hint (secret_word, letters_guessed):
 
 
 def hangman(secret_word):
-    print('Добро пожаловать в игру "В И С Е Л И Ц А"!\n')
-    print('Я загадал слово, которое содержит ',str(len(secret_word)),'букв.')
+    print('Я загадал слово, которое содержит ',str(len(secret_word)),'букв.\n')
     print('_ '*len(secret_word))
     print(pictures[0])
     letters_guessed=[]
@@ -198,11 +198,13 @@ def hangman(secret_word):
         letters_guessed.append(letter)
         gal=get_available_letters(letters_guessed)
         if letter in secret_word:
+            os.system('cls')
             print('Хорошая попытка!\n')
             print(get_guessed_word(secret_word, letters_guessed))
             print(pictures[(6-g)])
         else:
-            print('Этой буквы нет в загаданном слове.')
+            os.system('cls')
+            print('Этой буквы нет в загаданном слове.\n')
             print(get_guessed_word(secret_word, letters_guessed))
             g-=1
             print(pictures[(6-g)])
@@ -215,14 +217,12 @@ def hangman(secret_word):
 
 
 def hangman_with_hints(secret_word):
-    print('Добро пожаловать в игру "В И С Е Л И Ц А"!\n')
     print('Чтобы использовать подсказку, напишите: "подсказка".')
-    print('Я загадал слово, которое содержит ',str(len(secret_word)),'букв.\n')
+    print('Я загадал слово, которое содержит ',str(len(secret_word)),'букв.')
     print('_ '*len(secret_word))
     print(pictures[0])
     hints = number_of_hints(secret_word)
     letters_guessed=[]
-    not_guessed_letters = []
     gal=get_available_letters(letters_guessed)
     g=6
     while g>0:
@@ -234,23 +234,29 @@ def hangman_with_hints(secret_word):
         print('Количество доступных подсказок: ', hints)
         letter=guess_hint(g,gal)
         letters_guessed.append(letter)
-        gal=get_available_letters(letters_guessed)
         if letter == 'подсказка':
+            os.system('cls')
             if hints > 0:
+                print ('Вы использовали подсказку!\n')
                 print(hint(secret_word, letters_guessed))
                 hints -= 1
                 print(pictures[(6-g)])
             else:
-                print('Вы не можете больше использовать подсказки.')
+                print('Вы не можете больше использовать подсказки!\n')
+                print(get_guessed_word(secret_word, letters_guessed))
+                print(pictures[(6-g)])
         elif letter in secret_word:
+            os.system('cls')
             print('Хорошая попытка!\n')
             print(get_guessed_word(secret_word, letters_guessed))
             print(pictures[(6-g)])
         else:
-            print('Этой буквы нет в загаданном слове.')
+            os.system('cls')
+            print('Этой буквы нет в загаданном слове.\n')
             print(get_guessed_word(secret_word, letters_guessed))
             g-=1
             print(pictures[(6-g)])
+        gal=get_available_letters(letters_guessed)
     if g==0:
         print('Увы, вы проиграли!')
         dictionary = definition(filename_d)
@@ -264,19 +270,17 @@ answer='да'
 secret_word = choose_word(wordlist)
 while answer=='да':
     while True:
+        print('Добро пожаловать в игру "В И С Е Л И Ц А"!\n')
         answer1=str.lower(input('Вы хотите играть с подсказками?(да/нет) '))
+        os.system('cls')
         if answer1=='да':
-            print('\n')
             hangman_with_hints(secret_word)
             break
         elif answer1=='нет':
-            print('\n')
             hangman(secret_word)
             break
         else:
             continue
-    secret_word = choose_word(wordlist)    
-    answer=str.lower(input('Хотите сыграть еще раз? (да/нет)'))
-
-
-
+    secret_word = choose_word(wordlist)
+    answer=str.lower(input('Хотите сыграть еще раз? (да/нет) '))
+    os.system('cls')
